@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.2-cudnn7-runtime-ubuntu18.04
+FROM nvidia/cuda:10.2-cudnn7-devel
 
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 ENV CUDNN_VERSION 8.2.0.53
@@ -26,7 +26,7 @@ RUN sh /opt/Miniconda3-py39_4.9.2-Linux-x86_64.sh -b -p /opt/miniconda3 && \
 ENV PATH /opt/miniconda3/bin:$PATH
 
 RUN conda update -n base -c defaults conda
-RUN conda create -n pytorch-ltfat python==3.7
+RUN conda create -n pytorch-ltfat python==3.7.7
 RUN conda init bash
 
 SHELL ["conda", "run", "-n", "pytorch-ltfat", "/bin/bash", "-c"]
@@ -45,6 +45,7 @@ RUN conda install -y -c conda-forge seaborn
 
 RUN conda install -y -c conda-forge pysoundfile
 RUN conda install -y -c conda-forge librosa
+RUN conda clean --all
 
 RUN pip install --no-cache-dir pyroomacoustics
 RUN pip install --no-cache-dir cookiecutter
@@ -52,7 +53,8 @@ RUN pip install --no-cache-dir ltfatpy
 RUN pip install --no-cache-dir museval
 RUN pip install --no-cache-dir pesq
 RUN pip install --no-cache-dir torch_optimizer
-
+RUN pip install --no-cache-dir torchinfo
+RUN pip install sru==2.5.1
 
 # User Setting
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh

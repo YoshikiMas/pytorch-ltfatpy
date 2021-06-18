@@ -20,6 +20,8 @@ run: ## run docker.
 	-p $(EXPOSED_PORT):$(EXPOSED_PORT) \
 	-v $(HOST_PATH):$(CONTAINER_PATH) \
 	-w $(CONTAINER_PATH) \
+	--shm-size=8g \
+	--memory=44g \
 	$(IMAGE_TAG) /bin/bash
 
 connect: ## connect newest container
